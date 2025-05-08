@@ -60,6 +60,7 @@ zshrc_{{username}}:
       disable_update_prompt:  {{ user.get('disable-update-prompt', defaults.get('disable-update-prompt', False)) }}
       disable_untracked_files_dirty:  {{ user.get('disable-untracked-files-dirty', defaults.get('disable-untracked-files-dirty', False)) }}
       plugins:  {{ user.get('plugins', defaults.get('plugins', {})) }}
+      home: "$HOME"
 
 {% endfor %}
 {% endif %}
@@ -77,7 +78,7 @@ clone_oh_my_zsh_repo_global:
 
 zshrc_global:
   file.managed:
-    - name: "/etc/zsh/zshrc"
+    - name: /etc/zsh/zshrc
     - source: salt://oh-my-zsh/files/.zshrc.jinja2
     - makedirs: True
     - mode: '0644'
@@ -89,3 +90,10 @@ zshrc_global:
       disable_untracked_files_dirty:  {{ defaults.get('disable-untracked-files-dirty', False) }}
       plugins:  {{ defaults.get('plugins', {}) }}
       home: /etc/zsh
+
+zshrc_bak_global:
+  file.line:
+    - name: /etc/zshrc
+    - content: source /etc/zsh/zshrc
+    - mode: ensure
+    - onlyif: "test -d /etc/zshrc"
