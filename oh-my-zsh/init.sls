@@ -88,3 +88,4 @@ zshrc_global:
       disable_update_prompt:  {{ defaults.get('disable-update-prompt', False) }}
       disable_untracked_files_dirty:  {{ defaults.get('disable-untracked-files-dirty', False) }}
       plugins:  {{ defaults.get('plugins', {}) }}
+      home: /etc/zsh
