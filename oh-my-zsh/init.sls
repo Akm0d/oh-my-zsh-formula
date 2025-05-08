@@ -64,6 +64,17 @@ zshrc_{{username}}:
 {% endfor %}
 {% endif %}
 
+clone_oh_my_zsh_repo_global:
+  git.latest:
+    - name: https://github.com/robbyrussell/oh-my-zsh.git
+    - rev: master
+    - target: "/etc/zsh/.oh-my-zsh"
+    - unless: "test -d /etc/zsh/.oh-my-zsh"
+    - require_in:
+      - file: zshrc_global
+    - require:
+      - pkg: zsh
+
 zshrc_global:
   file.managed:
     - name: "/etc/zsh/zshrc"
