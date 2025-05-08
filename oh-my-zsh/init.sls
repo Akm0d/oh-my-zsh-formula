@@ -96,4 +96,4 @@ zshrc_bak_global:
     - name: /etc/zshrc
     - content: source /etc/zsh/zshrc
     - mode: ensure
-    - onlyif: "test -d /etc/zshrc"
+    - onlyif: "test -f /etc/zshrc"
