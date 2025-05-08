@@ -65,6 +65,12 @@ zshrc_{{username}}:
 {% endfor %}
 {% endif %}
 
+/etc/zsh:
+  file.directory:
+    - makedirs: True
+    - require_in:
+      - git: clone_oh_my_zsh_repo_global
+
 clone_oh_my_zsh_repo_global:
   git.latest:
     - name: https://github.com/robbyrussell/oh-my-zsh.git
@@ -78,7 +84,11 @@ clone_oh_my_zsh_repo_global:
 
 zshrc_global:
   file.managed:
+{% salt['file.file_exists']('/etc/zshrc') %}
+    - name: /etc/zshrc
+{% else %}
     - name: /etc/zsh/zshrc
+{% endif %}
     - source: salt://oh-my-zsh/files/.zshrc.jinja2
     - makedirs: True
     - mode: '0644'
@@ -90,10 +100,3 @@ zshrc_global:
       disable_untracked_files_dirty:  {{ defaults.get('disable-untracked-files-dirty', False) }}
       plugins:  {{ defaults.get('plugins', {}) }}
       home: /etc/zsh
-
-zshrc_bak_global:
-  file.line:
-    - name: /etc/zshrc
-    - content: source /etc/zsh/zshrc
-    - mode: ensure
-    - onlyif: "test -f /etc/zshrc"
