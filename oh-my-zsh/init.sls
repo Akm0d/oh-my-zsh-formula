@@ -63,3 +63,17 @@ zshrc_{{username}}:
 
 {% endfor %}
 {% endif %}
+
+zshrc_global:
+  file.managed:
+    - name: "/etc/zsh/zshrc"
+    - source: salt://oh-my-zsh/files/.zshrc.jinja2
+    - makedirs: True
+    - mode: '0644'
+    - template: jinja
+    - context:
+      theme:  {{ defaults.get('theme', 'robbyrussell') }}
+      disable_auto_update: {{ defaults.get('disable-auto-update', True) }}
+      disable_update_prompt:  {{ defaults.get('disable-update-prompt', False) }}
+      disable_untracked_files_dirty:  {{ defaults.get('disable-untracked-files-dirty', False) }}
+      plugins:  {{ defaults.get('plugins', {}) }}
