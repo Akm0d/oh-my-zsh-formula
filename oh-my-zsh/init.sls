@@ -84,7 +84,7 @@ clone_oh_my_zsh_repo_global:
 
 zshrc_global:
   file.managed:
-{% salt['file.file_exists']('/etc/zshrc') %}
+{% if salt['file.file_exists']('/etc/zshrc') %}
     - name: /etc/zshrc
 {% else %}
     - name: /etc/zsh/zshrc
